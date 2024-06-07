@@ -14,28 +14,64 @@
     {% load crispy_forms_tags %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Love Music/?</a>
+          <a class="navbar-brand" href="{% url 'homepage'%}">Love Music/?</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarText">
+          
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'homepage'%}">Home</a>
               </li>
+  
+              {% if request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'add_musician'%}">Add Mucian</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'add_album'%}">Add Album</a>
               </li>
+              {% endif %}
             </ul>
-            <span class="navbar-text">
-              Music can give you real feel..
-            </span>
+            <div class="d-flex">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item mx-3">
+                  <a
+                    class="nav-link btn btn-danger text-dark"
+                    href="{% url 'user_logout' %}"
+                    >Logout</a
+                  >
+                </li>
+                {% else %}
+                <li class="nav-item mx-3">
+                  <a
+                    class="nav-link btn btn-warning text-dark"
+                    href="{% url 'register' %}"
+                    >Register</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link btn btn-primary text-dark"
+                    href="{% url 'user_login' %}"
+                    >Login</a
+                  >
+                </li>
+                {% endif %}
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
+
+
+      {% for i in messages %}
+      <div class="">
+      <h3 class="text-{{i.tags}}">{{i}}</h3>
+      </div>
+      {% endfor %} 
 
       {% block content%}
       {% endblock %}
