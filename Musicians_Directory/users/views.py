@@ -23,11 +23,12 @@ def register(request):
         register_form = forms.RegistrationForm()
     return render(request, 'register.html', {'form' : register_form, 'type' : 'Register'})
 
+
 class registerView(CreateView):
     model = User
     form_class = forms.RegistrationForm
     template_name = 'register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('user_login')
     def form_valid(self, form):
         return super().form_valid(form)
 
